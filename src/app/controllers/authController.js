@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
         
         const user = await User.create(req.body);
 
-        user.password = undefined;
+        user.password = undefined; //apaga a informaçao de senha assim que o usuário é criado
 
         return res.send({ 
             user,
@@ -34,20 +34,20 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (err){
-        return res.status(400).send({error: 'Registration failed'});
+        return res.status(400).send({ error: 'Registration failed' });
     }
 });
 
 router.post('/authenticate', async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('password');
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user)
         return res.status(400).send({ error: 'User not found' });
 
     if (!await bcrypt.compare(password, user.password))
-        return res.status(400).send({ error: 'Invalid password'});
+        return res.status(400).send({ error: 'Invalid password' });
 
     user.password = undefined;
 

@@ -9,15 +9,15 @@ const UserSchema = new mongoose.Schema({
 
     email: {
         type: String,
-        unique: true,
-        required: true,
-        lowercase: true,
+        unique: true, //define que nao pode ser repetido
+        required: true,  //seta obrigatoriedade
+        lowercase: true, //forçar caixa baixa
     },
 
     password: {
         type: String,
         required: true,
-        select: false, 
+        select: false, //evita que ao efetuar uma busca essa informaçao retorne no array de uruário
     },
 
     passwordResetToken:{
